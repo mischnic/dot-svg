@@ -12,18 +12,19 @@ graphviz-build:
 	./configure --quiet
 	(cd lib/gvpr && make --quiet mkdefs CFLAGS="-w")
 
-	mkdir FEATURE
+	mkdir -p FEATURE
 	cp -v ../configs/sfio ../configs/vmalloc FEATURE/
 
 	emconfigure ./configure --without-x --without-freetype2 --without-fontconfig --without-libgd --without-glut \
-	   --without-sfdp --disable-ltdl --without-ortho --without-digcola --prefix $(realpath ../graphviz) \
+	   --without-sfdp --disable-ltdl --without-ortho --without-digcola --prefix $(CURDIR)/graphviz \
 	   --disable-java --disable-lua --disable-sharp --enable-static --disable-shared CFLAGS="-Oz -w"
 	(cd lib && emmake make -j4 install)
 	(cd plugin && emmake make -j4 install)
 
 
 main:
+	mkdir -p dist
 	emcc -Oz --memory-init-file 0 -s WASM=1 -s MODULARIZE=1 -o dist/dot-wasm.js dot-wasm.c \
 	-I graphviz/include -I graphviz/include/graphviz -L graphviz/lib -L graphviz/lib/graphviz \
 	-lcdt -lcgraph -lcdt -lgvc -lcdt -lgvplugin_core -lgvc -lgvplugin_dot_layout -lpathplan -lgvc -lcdt -lpathplan \
-	-s EXPORTED_RUNTIME_METHODS="['ccall', 'UTF8ToString']"
+	-s EXPORTED_RUNTIME_METHODS="['ccall', 'UTF8ToString']" --llvm-lto 1 --closure 1

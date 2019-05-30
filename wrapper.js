@@ -1,4 +1,4 @@
-const Module = require("./dot-wasm.js");
+const Module = require("./dist/dot-wasm.js");
 
 function render(instance, src) {
 	var resultPointer = instance["ccall"](
@@ -26,15 +26,8 @@ function render(instance, src) {
 	return resultString;
 }
 
-Module().then(function(x) {
-	console.log(
-		render(
-			x,
-			` digraph graphname
- {
-     a -> b -> c;
-     b -> d;
- }`
-		)
-	);
+module.exports = new Promise(res => {
+	Module().then(x => {
+		res(src => render(x, src));
+	});
 });
