@@ -1,7 +1,20 @@
 {
-  "name": "dot-wasm",
-  "version": "0.0.0",
-  "main": "index.js",
-  "author": "Niklas Mischkulnig",
-  "license": "MIT"
+	"name": "dot-wasm",
+	"version": "0.0.0",
+	"main": "index.js",
+	"author": "Niklas Mischkulnig",
+	"license": "MIT",
+	"scripts": {
+		"build": "make",
+		"test-browser": "parcel build browser/index.html --cache-dir browser/.cache -d browser/dist && cp dist/dot-wasm.wasm browser/dist",
+		"test-node": "node test-node.js"
+	},
+	"devDependencies": {
+		"parcel-bundler": "^1.12.3"
+	},
+	"browser": {
+		"fs": false,
+		"path": false,
+		"crypto": false
+	}
 }

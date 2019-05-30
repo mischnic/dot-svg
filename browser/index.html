@@ -1,0 +1,25 @@
+<style type="text/css">
+	html {
+		box-sizing: border-box;
+	}
+	* {
+		box-sizing: inherit;
+	}
+</style>
+
+<body>
+	<div style="float: left; width: 40%; height: 100%; margin-right: 2em;">
+		<textarea style="width: 100%; height: auto; margin-bottom: 0.7em; min-height: 20em;">
+digraph graphname
+{
+    a -> b -> c;
+    b -> d;
+}
+		</textarea>
+		<button style="width: 100%;">
+			Build
+		</button>
+	</div>
+	<div id="main"></div>
+	<script type="text/javascript" src="index.js"></script>
+</body>
