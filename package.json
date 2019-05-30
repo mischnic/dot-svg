@@ -1,0 +1,7 @@
+{
+  "name": "dot-wasm",
+  "version": "0.0.0",
+  "main": "index.js",
+  "author": "Niklas Mischkulnig",
+  "license": "MIT"
+}

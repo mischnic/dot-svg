@@ -1,13 +1,9 @@
-const render = require("./wrapper.js");
-
-render.then(function(f) {
-	console.log(
-		f(
-			` digraph graphname
+const input = `digraph graphname
  {
      a -> b -> c;
      b -> d;
- }`
-		)
-	);
+ }`;
+
+require("./").then(function(render) {
+	console.log(render(input));
 });
