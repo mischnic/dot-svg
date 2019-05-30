@@ -1,33 +1,35 @@
-const Module = require("./dist/dot-wasm.js");
-
-function render(instance, src) {
-	var resultPointer = instance["ccall"](
-		"vizRenderFromString",
-		"number",
-		["string", "string", "string"],
-		[src, "svg", "dot"]
-	);
-	var resultString = instance["UTF8ToString"](resultPointer);
-	instance["ccall"]("free", "number", ["number"], [resultPointer]);
-
-	var errorMessagePointer = instance["ccall"](
-		"vizLastErrorMessage",
-		"number",
-		[],
-		[]
-	);
-	var errorMessageString = instance["UTF8ToString"](errorMessagePointer);
-	instance["ccall"]("free", "number", ["number"], [errorMessagePointer]);
-
-	if (errorMessageString != "") {
-		throw new Error(errorMessageString);
-	}
-
-	return resultString;
-}
+const RawModule = require("./dist/dot-wasm.js");
 
 module.exports = new Promise(res => {
-	Module().then(x => {
-		res(src => render(x, src));
+	RawModule().then(Module => {
+		const vizRenderFromString = Module.cwrap(
+			"vizRenderFromString",
+			"number",
+			["string", "string", "string"]
+		);
+		const vizLastErrorMessage = Module.cwrap(
+			"vizLastErrorMessage",
+			"number",
+			[]
+		);
+		const free = Module.cwrap("free", "number", ["number"]);
+
+		function render(src) {
+			const resultPointer = vizRenderFromString(src, "svg", "dot");
+			const resultString = Module.UTF8ToString(resultPointer);
+			free(resultPointer);
+
+			const errorMessagePointer = vizLastErrorMessage();
+			const errorMessageString = Module.UTF8ToString(errorMessagePointer);
+			free(errorMessagePointer);
+
+			if (errorMessageString) {
+				throw new Error(errorMessageString);
+			}
+
+			return resultString;
+		}
+
+		res(render);
 	});
 });
