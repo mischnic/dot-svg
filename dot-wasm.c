@@ -1,3 +1,5 @@
+// Mostly taken from https://github.com/mdaines/viz.js
+
 #include <gvc.h>
 #include <emscripten.h>
 
