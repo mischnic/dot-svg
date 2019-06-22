@@ -2,28 +2,34 @@ const RawModule = require("./dist/dot-wasm.js");
 
 module.exports = new Promise(res => {
 	RawModule().then(Module => {
-		const vizRenderFromString = Module.cwrap(
-			"vizRenderFromString",
+		const graphvizRenderFromString = Module.cwrap(
+			"graphvizRenderFromString",
 			"number",
 			["string", "string", "string"]
 		);
-		const vizLastErrorMessage = Module.cwrap(
-			"vizLastErrorMessage",
+		const graphvizLastErrorMessage = Module.cwrap(
+			"graphvizLastErrorMessage",
 			"number",
 			[]
 		);
-		const free = Module.cwrap("free", "number", ["number"]);
+		const free = Module.cwrap("free", null, ["number"]);
+		const freeStringRenderString = Module.cwrap(
+			"freeStringRenderString",
+			null,
+			["number"]
+		);
 
 		function render(src) {
-			const resultPointer = vizRenderFromString(src, "svg", "dot");
+			const resultPointer = graphvizRenderFromString(src, "svg", "dot");
 			const resultString = Module.UTF8ToString(resultPointer);
-			free(resultPointer);
+			freeStringRenderString(resultPointer);
 
-			const errorMessagePointer = vizLastErrorMessage();
-			const errorMessageString = Module.UTF8ToString(errorMessagePointer);
-			free(errorMessagePointer);
-
-			if (errorMessageString) {
+			const errorMessagePointer = graphvizLastErrorMessage();
+			if (errorMessagePointer) {
+				const errorMessageString = Module.UTF8ToString(
+					errorMessagePointer
+				);
+				free(errorMessagePointer);
 				throw new Error(errorMessageString);
 			}
 

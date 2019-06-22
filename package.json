@@ -6,8 +6,9 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "make",
-		"test-browser": "parcel build browser/index.html --cache-dir browser/.cache -d browser/dist && cp dist/dot-wasm.wasm browser/dist",
-		"test-node": "node test-node.js"
+		"test-browser": "parcel build browser/index.html --cache-dir browser/.cache -d browser/dist --no-source-maps && cp dist/dot-wasm.wasm browser/dist",
+		"test-node": "node test-node.js",
+		"test-native": "clang dot-wasm-native.c -I/usr/local/opt/graphviz/include -L/usr/local/opt/graphviz/lib -L/usr/local/opt/graphviz/lib/graphviz -lgvpr -lgvc -lcgraph -lgvplugin_core -lgvplugin_dot_layout -o dot-wasm-native && ./dot-wasm-native"
 	},
 	"devDependencies": {
 		"parcel-bundler": "^1.12.3"

@@ -1,7 +1,5 @@
 // Mostly taken from https://github.com/mdaines/viz.js
-
-#include <gvc.h>
-#include <emscripten.h>
+#include <graphviz/gvc.h>
 
 extern gvplugin_library_t gvplugin_core_LTX_library;
 extern gvplugin_library_t gvplugin_dot_layout_LTX_library;
@@ -13,11 +11,11 @@ int vizErrorf(char *buf) {
   return 0;
 }
 
-EMSCRIPTEN_KEEPALIVE char* graphvizLastErrorMessage() {
+char* vizLastErrorMessage() {
   return errorMessage;
 }
 
-EMSCRIPTEN_KEEPALIVE char* graphvizRenderFromString(const char *src, const char *format, const char *engine) {
+char* vizRenderFromString(const char *src, const char *format, const char *engine) {
   errorMessage = NULL;
   GVC_t *context;
   Agraph_t *graph;
@@ -48,6 +46,39 @@ EMSCRIPTEN_KEEPALIVE char* graphvizRenderFromString(const char *src, const char 
   return result;
 }
 
-EMSCRIPTEN_KEEPALIVE void freeStringRenderString(char* data) {
+void freeStringRenderString(char *data) {
   gvFreeRenderData(data);
+}
+
+
+void test(char* string){
+  char *result = vizRenderFromString(string, "svg", "dot");
+  printf("%lu\n", result ? strlen(result) : 0);
+  freeStringRenderString(result);
+  
+  char *lastError = vizLastErrorMessage();
+  printf("Error: %s\n\n", lastError);
+
+}
+
+int main(){
+  test("digraph graphname\
+{\
+    a -> b -> c;\
+    b -> d;\
+}");
+
+  test("digraph graphname\
+{\
+    a -> b -> c;\
+    b -> d;\
+");
+
+  test("digraph graphname\
+{\
+    a -> b -> c;\
+    b -> d;\
+}");
+
+  return 0;
 }

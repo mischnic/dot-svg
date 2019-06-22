@@ -1,6 +1,5 @@
 all: graphviz-download graphviz-build main
 
-
 graphviz-download:
 	curl -LO https://www.mirrorservice.org/sites/distfiles.macports.org/graphviz/graphviz-2.40.1.tar.gz
 	tar -xf graphviz-2.40.1.tar.gz
@@ -10,7 +9,7 @@ graphviz-build:
 	cd graphviz-2.40.1
 
 	./configure --quiet
-	(cd lib/gvpr && make --quiet mkdefs CFLAGS="-w")
+	(cd lib/gvpr && make --quiet mkdefs CFLAGS="-w") # build the mkdefs binary
 
 	mkdir -p FEATURE
 	cp -v ../configs/sfio ../configs/vmalloc FEATURE/

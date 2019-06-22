@@ -1,25 +1,43 @@
-<style type="text/css">
-	html {
-		box-sizing: border-box;
-	}
-	* {
-		box-sizing: inherit;
-	}
-</style>
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			html {
+				box-sizing: border-box;
+			}
+			* {
+				box-sizing: inherit;
+			}
 
-<body>
-	<div style="float: left; width: 40%; height: 100%; margin-right: 2em;">
-		<textarea style="width: 100%; height: auto; margin-bottom: 0.7em; min-height: 20em;">
-digraph graphname
-{
-    a -> b -> c;
-    b -> d;
-}
-		</textarea>
-		<button style="width: 100%;">
-			Build
-		</button>
-	</div>
-	<div id="main"></div>
-	<script type="text/javascript" src="index.js"></script>
-</body>
+			#left {
+				float: left;
+				width: 40%;
+				height: 100%;
+				margin-right: 2em;
+			}
+
+			#left > * {
+				width: 100%;
+			}
+
+			#input {
+				font-size: 1.2rem;
+				font-family: monospace;
+
+				height: auto;
+				margin-bottom: 0.7em;
+				min-height: 20em;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="left">
+			<textarea id="input" />
+			<button>
+				Build
+			</button>
+		</div>
+		<div id="output"></div>
+		<script type="text/javascript" src="index.js"></script>
+	</body>
+</html>

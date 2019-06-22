@@ -3,3 +3,4 @@ graphviz*/
 graphviz*.tar.gz
 browser/.cache/
 browser/dist/
+dot-wasm-native
