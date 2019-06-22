@@ -23,7 +23,7 @@ graphviz-build:
 
 main:
 	mkdir -p dist
-	emcc -Oz --memory-init-file 0 -s WASM=1 -s MODULARIZE=1 -o dist/dot-wasm.js dot-wasm.c \
+	emcc -Oz --memory-init-file 0 -s WASM=1 -s MODULARIZE=1 -s NO_FILESYSTEM=1 -o dist/dot-wasm.js dot-wasm.c \
 	-I graphviz/include -I graphviz/include/graphviz -L graphviz/lib -L graphviz/lib/graphviz \
 	-lcdt -lcgraph -lcdt -lgvc -lcdt -lgvplugin_core -lgvc -lgvplugin_dot_layout -lpathplan -lgvc -lcdt -lpathplan \
 	-s EXPORTED_RUNTIME_METHODS="['cwrap', 'UTF8ToString']" --llvm-lto 1 --closure 1
