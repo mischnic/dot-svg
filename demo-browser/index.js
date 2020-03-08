@@ -1,4 +1,5 @@
-const render = require("..");
+import dot from "dot-wasm";
+import WASM_URL from "url:dot-wasm/dist/index.wasm";
 
 document.getElementById("input").value = `digraph graphname
 {
@@ -6,7 +7,7 @@ document.getElementById("input").value = `digraph graphname
     b -> d;
 }`;
 
-render.then(function(f) {
+dot(() => WASM_URL).then(function(f) {
 	function update() {
 		try {
 			document.getElementById("output").innerHTML = f(

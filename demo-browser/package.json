@@ -1,0 +1,11 @@
+{
+	"private": true,
+	"default": "dist/index.html",
+	"source": "index.html",
+	"alias": {
+		"dot-wasm": "./.."
+	},
+	"targets": {
+		"default": {}
+	}
+}

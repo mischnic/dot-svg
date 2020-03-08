@@ -4,6 +4,6 @@ const input = `digraph graphname
      b -> d;
  }`;
 
-require("./").then(function(render) {
-	console.log(render(input));
+require("./")().then(function(render) {
+	// console.log(render(input));
 });
