@@ -57,8 +57,7 @@ void test(char* string){
   freeStringRenderString(result);
   
   char *lastError = vizLastErrorMessage();
-  printf("Error: %s\n\n", lastError);
-
+  if(lastError) printf("Error: %s\n\n", lastError);
 }
 
 int main(){

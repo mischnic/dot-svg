@@ -13,7 +13,6 @@ module.exports = locateFile => {
 				"number",
 				[]
 			);
-			const free = Module.cwrap("free", null, ["number"]);
 			const freeStringRenderString = Module.cwrap(
 				"freeStringRenderString",
 				null,
@@ -34,7 +33,6 @@ module.exports = locateFile => {
 					const errorMessageString = Module.UTF8ToString(
 						errorMessagePointer
 					);
-					free(errorMessagePointer);
 					throw new Error(errorMessageString);
 				}
 
