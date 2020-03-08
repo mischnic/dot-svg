@@ -7,7 +7,6 @@
 	"scripts": {
 		"build": "make",
 		"demo-browser": "rm -f demo-browser/dist/*; parcel build demo-browser --no-source-maps && cp dist/index.wasm demo-browser/dist/",
-		"demo-browser-deploy": "now dist --name demo-browser/dot-wasm --public",
 		"demo-node": "node demo-node.js",
 		"demo-native": "clang dot-wasm-native.c -I/usr/local/opt/graphviz/include -L/usr/local/opt/graphviz/lib -L/usr/local/opt/graphviz/lib/graphviz -lgvpr -lgvc -lcgraph -lgvplugin_core -lgvplugin_dot_layout -o dot-wasm-native && ./dot-wasm-native"
 	},

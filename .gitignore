@@ -5,3 +5,4 @@ graphviz*.tar.gz
 browser/dist/
 dot-wasm-native
 *.dSYM/
+.now
