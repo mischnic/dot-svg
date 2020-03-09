@@ -1,21 +1,16 @@
 {
-	"name": "dot-wasm",
+	"name": "@mischnic/dot-svg",
 	"version": "0.0.0",
-	"main": "index.js",
+	"main": "src/index-node.js",
+	"browser": "src/index-browser.js",
 	"author": "Niklas Mischkulnig",
 	"license": "MIT",
 	"scripts": {
 		"build": "make",
-		"demo-browser": "rm -f demo-browser/dist/*; parcel build demo-browser --no-source-maps && cp dist/index.wasm demo-browser/dist/",
-		"demo-node": "node demo-node.js",
-		"demo-native": "clang dot-wasm-native.c -I/usr/local/opt/graphviz/include -L/usr/local/opt/graphviz/lib -L/usr/local/opt/graphviz/lib/graphviz -lgvpr -lgvc -lcgraph -lgvplugin_core -lgvplugin_dot_layout -o dot-wasm-native && ./dot-wasm-native"
+		"demo-node": "node demo-node.js"
 	},
-	"devDependencies": {
-		"parcel": "^2.0.0-nightly.141"
-	},
-	"browser": {
-		"fs": false,
-		"path": false,
-		"process": false
-	}
+	"files": [
+		"dist",
+		"src"
+	]
 }

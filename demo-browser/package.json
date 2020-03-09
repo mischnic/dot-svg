@@ -1,11 +1,21 @@
 {
 	"private": true,
-	"default": "dist/index.html",
+	"app": "dist/index.html",
 	"source": "index.html",
+	"scripts": {
+		"build": "rm -f ./dist/*; parcel build . --no-source-maps --no-minify && cp ../dist/index-browser.wasm ./dist"
+	},
+	"dependencies": {
+		"comlink": "^4.2.0"
+	},
+	"devDependencies": {
+		"parcel": "^2.0.0-nightly.142"
+	},
 	"alias": {
 		"dot-wasm": "./.."
 	},
 	"targets": {
-		"default": {}
-	}
+		"app": {}
+	},
+	"browserslist": "Chrome 75"
 }

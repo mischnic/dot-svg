@@ -1,6 +1,4 @@
-const RawModule = require("./dist/index.js");
-
-module.exports = locateFile => {
+module.exports = RawModule => locateFile => {
 	return new Promise(res => {
 		RawModule({ locateFile }).then(Module => {
 			const graphvizRenderFromString = Module.cwrap(

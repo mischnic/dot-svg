@@ -1,4 +1,4 @@
-all: graphviz-2.42.3 graphviz-build dist/index.js
+all:
 
 .ONESHELL:
 
@@ -30,13 +30,25 @@ graphviz-build: graphviz-2.42.3
 	(cd lib && emmake make -j4 install)
 	(cd plugin && emmake make -j4 install)
 
-.PHONY: dist/index.js
-dist/index.js:
+.PHONY: dist
+dist: dist/index-node.js dist/index-browser.js
+
+.PHONY: dist/index-node.js
+dist/index-node.js:
 	mkdir -p dist
-	emcc --memory-init-file 0 -s MODULARIZE=1 -s FILESYSTEM=0 -o dist/index.js dot-wasm.c \
+	emcc --memory-init-file 0 -s MODULARIZE=1 -s FILESYSTEM=0 -o dist/index-node.js dot-wasm.c \
 	    -I graphviz/include -I graphviz/include/graphviz -L graphviz/lib -L graphviz/lib/graphviz \
 	    -lcdt -lcgraph -lcdt -lgvc -lcdt -lgvplugin_core -lgvc -lgvplugin_dot_layout -lpathplan -lgvc -lcdt -lpathplan \
-	    -s EXPORTED_RUNTIME_METHODS="['cwrap', 'UTF8ToString']" \
+	    -s EXPORTED_RUNTIME_METHODS="['cwrap', 'UTF8ToString']" -s ENVIRONMENT="node" \
+	    -s ASSERTIONS=0 -flto --llvm-lto 1 -Oz --closure 1
+
+.PHONY: dist/index-browser.js
+dist/index-browser.js:
+	mkdir -p dist
+	emcc --memory-init-file 0 -s MODULARIZE=1 -s FILESYSTEM=0 -o dist/index-browser.js dot-wasm.c \
+	    -I graphviz/include -I graphviz/include/graphviz -L graphviz/lib -L graphviz/lib/graphviz \
+	    -lcdt -lcgraph -lcdt -lgvc -lcdt -lgvplugin_core -lgvc -lgvplugin_dot_layout -lpathplan -lgvc -lcdt -lpathplan \
+	    -s EXPORTED_RUNTIME_METHODS="['cwrap', 'UTF8ToString']" -s ENVIRONMENT="web,worker" \
 	    -s ASSERTIONS=0 -flto --llvm-lto 1 -Oz --closure 1
 
 dot-wasm-native: dot-wasm-native.c

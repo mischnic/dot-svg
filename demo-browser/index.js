@@ -1,5 +1,4 @@
-import dot from "dot-wasm";
-// import WASM_URL from "url:dot-wasm/dist/index.wasm";
+import * as Render from "./render.js";
 
 document.getElementById("input").value = `digraph graphname
 {
@@ -7,17 +6,19 @@ document.getElementById("input").value = `digraph graphname
     b -> d;
 }`;
 
-dot(/*() => WASM_URL*/).then(function(f) {
-	function update() {
-		try {
-			document.getElementById("output").innerHTML = f(
-				document.getElementById("input").value
-			);
-		} catch (e) {
-			document.getElementById("output").textContent = e.message;
-		}
+async function update() {
+	let render = await (document.getElementById("useWorker").checked
+		? Render.worker
+		: Render.main);
+	try {
+		document.getElementById("output").innerHTML = await render(
+			document.getElementById("input").value
+		);
+	} catch (e) {
+		document.getElementById("output").textContent = e.message;
 	}
-	update();
+}
 
-	document.querySelector("button").onclick = update;
-});
+update();
+
+document.querySelector("button").onclick = update;

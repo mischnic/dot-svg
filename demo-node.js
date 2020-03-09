@@ -5,5 +5,5 @@ const input = `digraph graphname
  }`;
 
 require("./")().then(function(render) {
-	// console.log(render(input));
+	console.log(render(input));
 });
